@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D創想工坊 - 專業3D列印服務</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="cube" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><polygon points="10,2 18,7 18,17 10,22 2,17 2,7" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23cube)"/></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .portfolio-filter {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-items: center;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Default fallback icons for products without images */
+        .portfolio-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: white;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .portfolio-image::after {
+            content: '3D創想工坊 © 2025';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Specific images for each product - YOU NEED TO REPLACE THESE URLs */
+        .portfolio-item[data-product="1"] .portfolio-image {
+            background-image: url('images/inspection-carrier.jpg');
+        }
+
+        .portfolio-item[data-product="2"] .portfolio-image {
+            background-image: url('images/van-fan-adjustable.jpg');
+        }
+
+        .portfolio-item[data-product="3"] .portfolio-image {
+            background-image: url('images/van-fan-rain-cover.jpg');
+        }
+
+        .portfolio-item[data-product="4"] .portfolio-image {
+            background-image: url('images/dual-watch-charger.jpg');
+        }
+
+        .portfolio-item[data-product="5"] .portfolio-image {
+            background-image: url('images/stove-oil-cover.jpg');
+        }
+
+        .portfolio-item[data-product="6"] .portfolio-image {
+            background-image: url('images/multi-storage-box.jpg');
+        }
+
+        .portfolio-item[data-product="7"] .portfolio-image {
+            background-image: url('images/car-cup-holder.jpg');
+        }
+
+        .portfolio-item[data-product="8"] .portfolio-image {
+            background-image: url('images/switch-cooling-stand.jpg');
+        }
+
+        .portfolio-item[data-product="9"] .portfolio-image {
+            background-image: url('images/power-fan.jpg');
+        }
+
+        .portfolio-item[data-product="10"] .portfolio-image {
+            background-image: url('images/spiral-model.jpg');
+        }
+
+        .portfolio-item[data-product="11"] .portfolio-image {
+            background-image: url('images/hexagon-planter.jpg');
+        }
+
+        .portfolio-item[data-product="12"] .portfolio-image {
+            background-image: url('images/bathroom-shelf.jpg');
+        }
+
+        .portfolio-item[data-product="13"] .portfolio-image {
+            background-image: url('images/soap-drainer.jpg');
+        }
+
+        .portfolio-item[data-product="14"] .portfolio-image {
+            background-image: url('images/elliptical-phone-holder.jpg');
+        }
+
+        .portfolio-item[data-product="15"] .portfolio-image {
+            background-image: url('images/ventilated-storage.jpg');
+        }
+
+        .portfolio-item[data-product="16"] .portfolio-image {
+            background-image: url('images/mario-question-block.jpg');
+        }
+
+        /* Fallback icons when no image is available */
+        .portfolio-item[data-category="decorative"] .portfolio-image::before {
+            content: '🏠';
+        }
+
+        .portfolio-item[data-category="functional"] .portfolio-image::before {
+            content: '🔧';
+        }
+
+        .portfolio-item[data-category="creative"] .portfolio-image::before {
+            content: '🎨';
+        }
+
+        .portfolio-item[data-category="production"] .portfolio-image::before {
+            content: '🏭';
+        }
+
+        /* Hide fallback icons when real images are loaded */
+        .portfolio-image.has-image::before {
+            display: none;
+        }
+
+        .portfolio-content {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .portfolio-content::before {
+            content: '© 3D創想工坊 版權所有';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 0 0 0 10px;
+            font-weight: bold;
+        }
+
+        .portfolio-category {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-item[data-category="decorative"] .portfolio-category {
+            background: linear-gradient(45deg, #43e97b, #38f9d7);
+        }
+
+        .portfolio-item[data-category="functional"] .portfolio-category {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        .portfolio-item[data-category="creative"] .portfolio-category {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+        }
+
+        .portfolio-item[data-category="production"] .portfolio-category {
+            background: linear-gradient(45deg, #fa709a, #fee140);
+        }
+
+        .portfolio-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .portfolio-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .spec-tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .portfolio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .portfolio-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            padding: 80px 0;
+            background: white;
+            text-align: center;
+        }
+
+        .upload-area {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.3);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            background: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        footer::before {
+            content: '© 2025 3D創想工坊 - 所有圖片及內容受著作權法保護';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 107, 107, 0.8);
+            color: white;
+            padding: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .portfolio,
+            .features,
+            .upload-section,
+            .contact {
+                padding: 60px 0;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .portfolio-item {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .portfolio-image {
+                height: 200px;
+            }
+
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .portfolio-modal {
+                margin: 20px;
+                max-width: calc(100% - 40px);
+                max-height: calc(100vh - 40px);
+                padding: 1.5rem;
+            }
+
+            footer p {
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .portfolio-filter {
+                margin-bottom: 2rem;
+            }
+
+            .filter-btn {
+                padding: 8px 15px;
+                margin: 2px;
+                font-size: 0.9rem;
+            }
+
+            .feature-item {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+
+            footer::before {
+                font-size: 0.7rem;
+                padding: 4px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">🔺 3D創想工坊</a>
+            <ul class="nav-links">
+                <li><a href="#home">首頁</a></li>
+                <li><a href="#portfolio">作品集</a></li>
+                <li><a href="#features">特色</a></li>
+                <li><a href="#upload">上傳檔案</a></li>
+                <li><a href="#contact">聯絡我們</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="fade-in">從概念到實體，創新3D列印方案</h1>
+                <p class="fade-in">專業3D繪圖設計：從概念構想到3D建模，專業技術協助實現創意<br>
+                客製化設計開發：個性化3D繪圖設計，打造獨特產品方案<br>
+                一站式服務：3D繪圖設計 + 專業列印，完整解決方案</p>
+                <a href="#portfolio" class="cta-button fade-in">尋找快速、準確的解決方案？</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">精選作品集</h2>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" onclick="filterPortfolio('all')">全部作品</button>
+                <button class="filter-btn" onclick="filterPortfolio('functional')">功能配件</button>
+                <button class="filter-btn" onclick="filterPortfolio('production')">客製化治具</button>
+                <button class="filter-btn" onclick="filterPortfolio('decorative')">居家裝飾</button>
+                <button class="filter-btn" onclick="filterPortfolio('creative')">創意造型</button>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- 1. 檢驗載體製作 -->
+                <div class="portfolio-item fade-in" data-category="production" data-product="1" onclick="openPortfolioModal('檢驗載體製作', 'production', '專業的產品檢驗載體，具有精確的凹槽設計，可將產品固定在特定位置進行掃描檢驗。確保檢驗過程的一致性和準確性，廣泛應用於品質控制流程。可依照需求客製化設計。', ['高精度樹脂', '精密定位', '品質檢驗', '客製化設計'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">客製化治具</span>
+                        <h3 class="portfolio-title">檢驗載體製作</h3>
+                        <p class="portfolio-description">精密檢驗載體，用於產品掃描檢驗的定位治具</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">精密仿真</span>
+                            <span class="spec-tag">展示模型</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 車泊排風扇：可調風向設計 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="2" onclick="openPortfolioModal('車泊排風扇 - 可調風向', 'functional', '專為車泊生活設計的排風扇配件，具備可調式上下風向功能。綠色部分採用活動設計，可依需求調整通風角度，有效改善車內空氣流通。耐用的PLA+材質適合戶外使用環境。', ['PLA+材質', '可調風向', '車泊專用', '耐候設計'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">車泊排風扇 - 可調風向</h3>
+                        <p class="portfolio-description">可調式風向設計，車泊生活的完美通風解決方案</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">可調風向</span>
+                            <span class="spec-tag">車泊專用</span>
+                            <span class="spec-tag">戶外耐用</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 車泊排風扇：晴雨罩設計 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="3" onclick="openPortfolioModal('車泊排風扇 - 晴雨罩', 'functional', '專業的車泊排風扇晴雨罩設計，有效防止雨水進入車內同時保持良好通風效果。雙通風口設計確保空氣流通順暢，黑色霧面處理美觀實用，是車泊愛好者的必備配件。', ['ABS材質', '防雨設計', '雙通風口', '霧面處理'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">車泊排風扇 - 晴雨罩</h3>
+                        <p class="portfolio-description">防雨通風兼具，車泊生活的實用配件</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">防雨設計</span>
+                            <span class="spec-tag">雙通風口</span>
+                            <span class="spec-tag">霧面質感</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 雙手錶充電器 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="4" onclick="openPortfolioModal('雙手錶充電器', 'functional', '專業的雙手錶充電座，可同時為兩支智慧手錶充電。圓形凹槽設計完美貼合手錶，穩固不滑落。簡約白色設計，是桌面整理的完美解決方案。', ['PLA+材質', '雙錶充電', '防滑設計', '桌面整理'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">雙手錶充電器</h3>
+                        <p class="portfolio-description">可同時充電兩支手錶的專用充電座</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">雙錶充電</span>
+                            <span class="spec-tag">防滑設計</span>
+                            <span class="spec-tag">桌面整理</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 瓦斯爐防油蓋 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="5" onclick="openPortfolioModal('瓦斯爐防油蓋', 'functional', '實用的瓦斯爐開關防油噴濺保護蓋，有效防止烹飪時油脂濺到開關旋鈕上。黑色耐熱材質，簡約設計不影響廚房美觀，讓清潔工作更輕鬆。', ['耐熱ABS', '防油設計', '易清潔', '廚房專用'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">瓦斯爐防油蓋</h3>
+                        <p class="portfolio-description">廚房烹飪好幫手，防止油脂濺到瓦斯開關</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">耐熱材質</span>
+                            <span class="spec-tag">防油設計</span>
+                            <span class="spec-tag">易清潔</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. 多功能收納盒 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="6" onclick="openPortfolioModal('多功能收納盒', 'functional', '創新設計的多功能收納盒，採用可拆式隔板設計，可依需求調整內部空間。前方設有專用小隔板收納槽，讓整理更有條理。白色簡約外觀適合各種使用環境。', ['PLA+材質', '可拆隔板', '模組化設計', '多功能收納'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">多功能收納盒</h3>
+                        <p class="portfolio-description">可拆式隔板設計，模組化收納解決方案</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">可拆隔板</span>
+                            <span class="spec-tag">模組設計</span>
+                            <span class="spec-tag">多功能</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. 車內杯架組 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="7" onclick="openPortfolioModal('車內杯架組', 'functional', '專業的車內置物杯架，特殊設計可完美容納方形飲料瓶。精密的幾何花紋底部提供防滑效果，確保行車安全。模組化設計適合不同車型的杯架空間。', ['ABS材質', '防滑花紋', '方瓶專用', '模組設計'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">車內杯架組</h3>
+                        <p class="portfolio-description">專為方形飲料瓶設計的車用杯架解決方案</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">方瓶專用</span>
+                            <span class="spec-tag">防滑花紋</span>
+                            <span class="spec-tag">車用設計</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Switch充電散熱座 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="8" onclick="openPortfolioModal('Switch充電散熱座', 'functional', '專為Nintendo Switch設計的充電散熱座，具備散熱孔設計有效降低主機溫度，同時支援穩定充電。精準的角度設計，讓遊戲體驗更舒適，延長主機使用壽命。', ['PLA+材質', '散熱設計', 'Type-C充電', '防滑底座'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">Switch充電散熱座</h3>
+                        <p class="portfolio-description">遊戲主機散熱充電二合一，提升遊戲體驗</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">散熱設計</span>
+                            <span class="spec-tag">充電功能</span>
+                            <span class="spec-tag">防滑底座</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. 強力吹風機 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="9" onclick="openPortfolioModal('強力吹風機', 'functional', '專業級強力吹風機設計，黑色機身搭配黃色風扇罩，具備可調節風向功能。輕量化設計適合長時間使用，配備電池底座提供無線使用便利性。', ['ABS外殼', '可調風向', '無線設計', '輕量化'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">強力吹風機</h3>
+                        <p class="portfolio-description">專業級強力吹風機，黑黃配色設計</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">強力風機</span>
+                            <span class="spec-tag">可調風向</span>
+                            <span class="spec-tag">無線使用</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. 螺旋造型模型 -->
+                <div class="portfolio-item fade-in" data-category="creative" data-product="10" onclick="openPortfolioModal('螺旋造型模型', 'creative', '純粹的螺旋幾何造型模型，展現3D列印在複雜幾何結構上的精準表現。流暢的螺旋線條一體成型，無需支撐材料，充分體現了積層製造的技術優勢和設計自由度。', ['PLA材質', '螺旋造型', '一體成型', '無支撐列印'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">創意造型</span>
+                        <h3 class="portfolio-title">螺旋造型模型</h3>
+                        <p class="portfolio-description">純粹螺旋幾何設計，展現3D列印複雜結構能力</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">PLA材質</span>
+                            <span class="spec-tag">螺旋造型</span>
+                            <span class="spec-tag">一體成型</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. 六角多肉植物盆 -->
+                <div class="portfolio-item fade-in" data-category="decorative" data-product="11" onclick="openPortfolioModal('六角多肉植物盆', 'decorative', '時尚六角造型多肉植物盆，採用幾何美學設計，完美展現現代簡約風格。黑色霧面質感，搭配任何居家環境都能成為亮點。', ['PLA+材質', '霧面後處理', '排水孔設計', '環保材料'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">居家裝飾</span>
+                        <h3 class="portfolio-title">六角多肉植物盆</h3>
+                        <p class="portfolio-description">幾何美學設計，現代簡約風格的多肉植物盆</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">PLA+材質</span>
+                            <span class="spec-tag">霧面質感</span>
+                            <span class="spec-tag">排水設計</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. 浴室置物架 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="12" onclick="openPortfolioModal('浴室置物架', 'functional', '實用的浴室牆面置物架，雙層圓形設計提供充足收納空間。灰色霧面質感防水耐潮，簡約造型適合現代浴室風格。可收納各種盥洗用品，讓浴室更整潔。', ['PETG材質', '防水設計', '雙層收納', '牆面安裝'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">浴室置物架</h3>
+                        <p class="portfolio-description">防水雙層設計，浴室收納好幫手</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">防水材質</span>
+                            <span class="spec-tag">雙層設計</span>
+                            <span class="spec-tag">牆面安裝</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13. 肥皂瀝水架 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="13" onclick="openPortfolioModal('肥皂瀝水架', 'functional', '簡約實用的肥皂瀝水架，流線型設計確保良好的排水效果。防滑底座設計，穩固耐用，讓浴室更加整潔有序。', ['PETG材質', '防滑設計', '快速排水', '抗菌處理'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">肥皂瀝水架</h3>
+                        <p class="portfolio-description">實用的浴室配件，流線設計與排水功能</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">PETG材質</span>
+                            <span class="spec-tag">防滑底座</span>
+                            <span class="spec-tag">快速排水</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. 橢圓機手機架 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="14" onclick="openPortfolioModal('橢圓機手機架', 'functional', '專為橢圓機設計的手機支架，具備蜂窩孔洞透氣設計，有效防止手機過熱。可調節角度，適合不同尺寸手機。黑色設計與運動器材完美搭配。', ['PLA+材質', '透氣設計', '可調角度', '運動專用'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">橢圓機手機架</h3>
+                        <p class="portfolio-description">運動專用手機支架，蜂窩透氣設計</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">透氣孔洞</span>
+                            <span class="spec-tag">運動專用</span>
+                            <span class="spec-tag">防滑設計</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15. 透氣收納盒 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="15" onclick="openPortfolioModal('透氣收納盒', 'functional', '實用的透氣式收納盒，規律的圓形孔洞設計不僅美觀，更提供良好的通風效果。適合收納各種小物件，讓空間更加整潔有序。', ['PLA+材質', '透氣設計', '收納功能', '簡約風格'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">透氣收納盒</h3>
+                        <p class="portfolio-description">規律孔洞設計，兼具美觀與透氣功能</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">PLA+材質</span>
+                            <span class="spec-tag">透氣設計</span>
+                            <span class="spec-tag">收納功能</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16. 任天堂問號方塊 -->
+                <div class="portfolio-item fade-in" data-category="functional" data-product="16" onclick="openPortfolioModal('任天堂問號方塊', 'functional', '經典瑪利歐遊戲中的問號方塊，不僅是裝飾品更是實用的收納盒。精確的卡扣設計，開合順暢，是遊戲迷的完美桌面配件。', ['ABS材質', '卡扣機構', '收納功能', '遊戲週邊'])">
+                    <div class="portfolio-image"></div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">功能配件</span>
+                        <h3 class="portfolio-title">任天堂問號方塊</h3>
+                        <p class="portfolio-description">瑪利歐經典道具，兼具收納功能的實用設計</p>
+                        <div class="portfolio-specs">
+                            <span class="spec-tag">ABS材質</span>
+                            <span class="spec-tag">收納功能</span>
+                            <span class="spec-tag">精密卡扣</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Modal -->
+    <div class="portfolio-overlay" id="portfolioModal">
+        <div class="portfolio-modal">
+            <button class="modal-close" onclick="closePortfolioModal()">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">為什麼選擇我們</h2>
+            <div class="features-grid">
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🎨</div>
+                    <h3>3D繪圖設計</h3>
+                    <p>專業CAD建模，協助構想實現</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>快速交付</h3>
+                    <p>24-72小時快速交付</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🔧</div>
+                    <h3>多種材料</h3>
+                    <p>PLA, ABS, PETG, 樹脂等</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📐</div>
+                    <h3>高精度</h3>
+                    <p>±0.1mm精度保證</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">💰</div>
+                    <h3>合理價格</h3>
+                    <p>透明化計價，無隱藏費用</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="upload" class="upload-section">
+        <div class="container">
+            <h2 class="section-title">專業3D設計 + 精密列印，一站式完整服務</h2>
+            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
+                提供專業3D繪圖設計服務，從概念構想到建模實現<br>
+                無論您有現成檔案或需要重新設計，我們都能為您提供最佳解決方案
+            </p>
+            <div class="upload-area" onclick="triggerFileUpload()">
+                <div class="upload-icon">📁</div>
+                <h3>上傳現有3D檔案 或 提供設計需求</h3>
+                <p>檔案格式：STL, OBJ, 3MF 格式<br>設計服務：提供產品構想，我們協助3D建模設計<br>檔案大小限制：50MB</p>
+                <input type="file" id="fileUpload" style="display: none;" accept=".stl,.obj,.3mf" onchange="handleFileUpload(event)">
+            </div>
+            <div id="uploadResult" style="margin-top: 1rem; font-weight: bold;"></div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">聯絡我們</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">多種聯絡方式，選擇最適合您的</p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='tel:0900012110'" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <p style="margin: 0; font-weight: bold;">📞 電話</p>
+                        <p style="margin: 0;">0900-012-110</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.8;">點擊撥打</p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='mailto:sstarfly@gmail.com'" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <p style="margin: 0; font-weight: bold;">📧 Email</p>
+                        <p style="margin: 0;">sstarfly@gmail.com</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.8;">點擊發信</p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; transition: all 0.3s ease;" onclick="window.open('https://line.me/ti/p/spg', '_blank')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <p style="margin: 0; font-weight: bold;">💬 LINE ID</p>
+                        <p style="margin: 0;">spg</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.8;">點擊加好友</p>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="contact-method">聯絡方式</label>
+                    <select id="contact-method" name="contact-method">
+                        <option value="email">Email</option>
+                        <option value="phone">電話</option>
+                        <option value="line">LINE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">電子郵件</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">電話 / LINE ID</label>
+                    <input type="tel" id="phone" name="phone" placeholder="請輸入電話號碼或LINE ID">
+                </div>
+                <div class="form-group">
+                    <label for="project">專案描述</label>
+                    <textarea id="project" name="project" rows="4" placeholder="請描述您的專案需求..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">送出詢問</button>
+            </form>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1rem;">或直接聯繫我們</p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <button onclick="window.open('https://line.me/ti/p/spg', '_blank')" style="background: #00C300; color: white; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        💬 加LINE好友
+                    </button>
+                    <button onclick="window.location.href='tel:0900012110'" style="background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        📞 立即通話
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 3D創想工坊. 版權所有 | 聯絡人：朱昱昌 | 📞 0900-012-110 | 📧 sstarfly@gmail.com | 💬 LINE: spg</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.animationDelay = '0.2s';
+                    element.classList.add('fade-in');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run on load
+
+        // Check if images are loaded and hide fallback icons
+        document.addEventListener('DOMContentLoaded', function() {
+            const portfolioImages = document.querySelectorAll('.portfolio-image');
+            
+            portfolioImages.forEach(image => {
+                const computedStyle = window.getComputedStyle(image);
+                const backgroundImage = computedStyle.backgroundImage;
+                
+                if (backgroundImage && backgroundImage !== 'none' && !backgroundImage.includes('linear-gradient')) {
+                    // Test if the image actually loads
+                    const testImg = new Image();
+                    testImg.onload = function() {
+                        image.classList.add('has-image');
+                    };
+                    testImg.onerror = function() {
+                        // Image failed to load, keep fallback icon
+                    };
+                    
+                    // Extract URL from CSS background-image property
+                    const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                    if (urlMatch) {
+                        testImg.src = urlMatch[1];
+                    }
+                }
+            });
+        });
+
+        // File upload functionality
+        function triggerFileUpload() {
+            document.getElementById('fileUpload').click();
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            const resultDiv = document.getElementById('uploadResult');
+            
+            if (file) {
+                const fileSize = (file.size / 1024 / 1024).toFixed(2); // Convert to MB
+                const allowedTypes = ['.stl', '.obj', '.3mf'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                
+                if (!allowedTypes.includes(fileExtension)) {
+                    resultDiv.innerHTML = '<span style="color: #ff6b6b;">❌ 不支援的檔案格式</span>';
+                    return;
+                }
+                
+                if (file.size > 50 * 1024 * 1024) { // 50MB limit
+                    resultDiv.innerHTML = '<span style="color: #ff6b6b;">❌ 檔案大小超過限制 (50MB)</span>';
+                    return;
+                }
+                
+                resultDiv.innerHTML = `<span style="color: #43e97b;">✅ 檔案上傳成功: ${file.name} (${fileSize} MB)</span>`;
+                
+                // Simulate processing
+                setTimeout(() => {
+                    resultDiv.innerHTML += '<br><span style="color: #4facfe;">📊 正在分析檔案...</span>';
+                    
+                    setTimeout(() => {
+                        resultDiv.innerHTML += '<br><span style="color: #43e97b;">✅ 分析完成！預估價格: NT$350-500</span>';
+                    }, 2000);
+                }, 1000);
+            }
+        }
+
+        // Form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const contactMethod = document.getElementById('contact-method').value;
+            
+            if (name && (email || phone)) {
+                let contactInfo = '';
+                if (contactMethod === 'line') {
+                    contactInfo = `LINE ID: ${phone}`;
+                } else if (contactMethod === 'phone') {
+                    contactInfo = `電話: ${phone}`;
+                } else {
+                    contactInfo = `Email: ${email}`;
+                }
+                
+                alert(`感謝 ${name}！我們已收到您的詢問，將透過 ${contactInfo} 在24小時內回覆`);
+                event.target.reset();
+            }
+        }
+
+        // Portfolio filtering
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll('.portfolio-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    item.style.animation = 'fadeInUp 0.5s ease forwards';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Portfolio modal
+        function openPortfolioModal(title, category, description, specs) {
+            const modal = document.getElementById('portfolioModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const categoryNames = {
+                'decorative': '居家裝飾',
+                'functional': '功能配件', 
+                'creative': '創意造型',
+                'production': '客製化治具'
+            };
+            
+            modalContent.innerHTML = `
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="width: 350px; height: 250px; margin: 0 auto; border-radius: 15px; overflow: hidden; margin-bottom: 1rem; background: linear-gradient(45deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center;">
+                        <div style="font-size: 4rem; color: white; opacity: 0.3;">
+                            ${category === 'decorative' ? '🏠' : category === 'functional' ? '🔧' : category === 'creative' ? '🎨' : '🏭'}
+                        </div>
+                    </div>
+                    <span style="background: linear-gradient(45deg, ${category === 'decorative' ? '#43e97b, #38f9d7' : category === 'functional' ? '#4facfe, #00f2fe' : category === 'creative' ? '#f093fb, #f5576c' : '#fa709a, #fee140'}); color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">${categoryNames[category]}</span>
+                    <h2 style="margin: 1rem 0; color: #333; font-size: 1.8rem;">${title}</h2>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="color: #667eea; margin-bottom: 0.5rem;">產品描述</h3>
+                    <p style="line-height: 1.6; color: #666;">${description}</p>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="color: #667eea; margin-bottom: 0.5rem;">技術規格</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        ${specs.map(spec => `<span style="background: #f0f0f0; color: #666; padding: 6px 12px; border-radius: 15px; font-size: 0.9rem;">${spec}</span>`).join('')}
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="window.location.href='#contact'" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">立即詢問報價</button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closePortfolioModal() {
+            const modal = document.getElementById('portfolioModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('portfolioModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePortfolioModal();
+            }
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const elements = document.querySelectorAll('.fade-in');
+                elements.forEach((element, index) => {
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
