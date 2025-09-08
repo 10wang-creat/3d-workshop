@@ -1290,13 +1290,39 @@
                 'creative': '創意造型',
                 'production': '客製化治具'
             };
+
+            // Get the product data number from the clicked element
+            const clickedElement = event.target.closest('.portfolio-item');
+            const productNumber = clickedElement ? clickedElement.dataset.product : '';
+            
+            // Map product numbers to image URLs
+            const productImages = {
+                '1': 'images/inspection-carrier.jpg',
+                '2': 'images/van-fan-adjustable.jpg',
+                '3': 'images/van-fan-rain-cover.jpg',
+                '4': 'images/dual-watch-charger.jpg',
+                '5': 'images/stove-oil-cover.jpg',
+                '6': 'images/multi-storage-box.jpg',
+                '7': 'images/car-cup-holder.jpg',
+                '8': 'images/switch-cooling-stand.jpg',
+                '9': 'images/power-fan.jpg',
+                '10': 'images/spiral-model.jpg',
+                '11': 'images/hexagon-planter.jpg',
+                '12': 'images/bathroom-shelf.jpg',
+                '13': 'images/soap-drainer.jpg',
+                '14': 'images/elliptical-phone-holder.jpg',
+                '15': 'images/ventilated-storage.jpg',
+                '16': 'images/mario-question-block.jpg'
+            };
+
+            const imageUrl = productImages[productNumber];
+            const fallbackIcon = category === 'decorative' ? '🏠' : category === 'functional' ? '🔧' : category === 'creative' ? '🎨' : '🏭';
             
             modalContent.innerHTML = `
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <div style="width: 350px; height: 250px; margin: 0 auto; border-radius: 15px; overflow: hidden; margin-bottom: 1rem; background: linear-gradient(45deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center;">
-                        <div style="font-size: 4rem; color: white; opacity: 0.3;">
-                            ${category === 'decorative' ? '🏠' : category === 'functional' ? '🔧' : category === 'creative' ? '🎨' : '🏭'}
-                        </div>
+                    <div style="width: 350px; height: 250px; margin: 0 auto; border-radius: 15px; overflow: hidden; margin-bottom: 1rem; background: ${imageUrl ? `url('${imageUrl}')` : 'linear-gradient(45deg, #667eea, #764ba2)'}; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+                        ${!imageUrl ? `<div style="font-size: 4rem; color: white; opacity: 0.3;">${fallbackIcon}</div>` : ''}
+                        <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; backdrop-filter: blur(5px);">3D創想工坊 © 2025</div>
                     </div>
                     <span style="background: linear-gradient(45deg, ${category === 'decorative' ? '#43e97b, #38f9d7' : category === 'functional' ? '#4facfe, #00f2fe' : category === 'creative' ? '#f093fb, #f5576c' : '#fa709a, #fee140'}); color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">${categoryNames[category]}</span>
                     <h2 style="margin: 1rem 0; color: #333; font-size: 1.8rem;">${title}</h2>
